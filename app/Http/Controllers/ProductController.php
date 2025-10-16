@@ -3,83 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\ProductDataService;
 
 class ProductController extends Controller
 {
-    // Data produk sederhana (dalam aplikasi nyata bisa dari database)
-    private $products = [
-        [
-            'id' => 1,
-            'name' => 'Laptop Gaming ROG',
-            'price' => 15000000,
-            'description' => 'Laptop gaming dengan spesifikasi tinggi untuk gaming dan multimedia',
-            'category' => 'electronics',
-            'image' => 'laptop-rog.jpg'
-        ],
-        [
-            'id' => 2,
-            'name' => 'Smartphone Samsung Galaxy',
-            'price' => 8000000,
-            'description' => 'Smartphone Android dengan kamera berkualitas tinggi',
-            'category' => 'electronics',
-            'image' => 'samsung-galaxy.jpg'
-        ],
-        [
-            'id' => 3,
-            'name' => 'Kemeja Casual Pria',
-            'price' => 250000,
-            'description' => 'Kemeja casual berkualitas tinggi untuk pria',
-            'category' => 'clothing',
-            'image' => 'kemeja-pria.jpg'
-        ],
-        [
-            'id' => 4,
-            'name' => 'Dress Wanita Elegant',
-            'price' => 350000,
-            'description' => 'Dress elegant untuk acara formal dan kasual',
-            'category' => 'clothing',
-            'image' => 'dress-wanita.jpg'
-        ],
-        [
-            'id' => 5,
-            'name' => 'Sepatu Sneakers Nike',
-            'price' => 1200000,
-            'description' => 'Sepatu sneakers Nike original untuk olahraga dan kasual',
-            'category' => 'shoes',
-            'image' => 'nike-sneakers.jpg'
-        ],
-        [
-            'id' => 6,
-            'name' => 'Tas Backpack Outdoor',
-            'price' => 450000,
-            'description' => 'Tas backpack tahan air untuk aktivitas outdoor',
-            'category' => 'accessories',
-            'image' => 'backpack-outdoor.jpg'
-        ]
-    ];
-
-    private $categories = [
-        'electronics' => 'Elektronik',
-        'clothing' => 'Pakaian',
-        'shoes' => 'Sepatu',
-        'accessories' => 'Aksesoris'
-    ];
-
     /**
      * Halaman utama produk dengan fitur filter
      */
     public function index(Request $request)
     {
-        $products = $this->products;
-        $categories = $this->categories;
+        $categories = ProductDataService::getAllCategories();
         $selectedCategory = $request->get('category');
 
-        // Filter produk berdasarkan kategori jika ada
-        if ($selectedCategory && $selectedCategory !== 'all') {
-            $products = array_filter($products, function($product) use ($selectedCategory) {
-                return $product['category'] === $selectedCategory;
-            });
-        }
+        // Get products berdasarkan filter
+        $products = ProductDataService::getProductsByCategory($selectedCategory);
 
         return view('products.index', compact('products', 'categories', 'selectedCategory'));
     }
@@ -89,7 +26,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = collect($this->products)->firstWhere('id', $id);
+        $product = ProductDataService::getProductById($id);
         
         if (!$product) {
             abort(404, 'Produk tidak ditemukan');
@@ -99,15 +36,61 @@ class ProductController extends Controller
     }
 
     /**
-     * Menambahkan produk ke keranjang
+     * Search products (AJAX endpoint)
      */
-    public function addToCart(Request $request)
+    public function search(Request $request)
     {
-        $request->validate([
-            'product_id' => 'required|integer',
-            'quantity' => 'required|integer|min:1'
+        $query = $request->get('q');
+        
+        if (empty($query)) {
+            return response()->json(['products' => []]);
+        }
+
+        $products = ProductDataService::searchProducts($query);
+
+        return response()->json([
+            'products' => array_values($products),
+            'count' => count($products)
         ]);
+    }
 
-        $productId = $request->product_id;
-        $quantity = $request->quantity;
+    /**
+     * Get products by price range (AJAX endpoint)
+     */
+    public function filterByPrice(Request $request)
+    {
+        $minPrice = $request->get('min_price', 0);
+        $maxPrice = $request->get('max_price', PHP_INT_MAX);
+        
+        $products = ProductDataService::getProductsByPriceRange($minPrice, $maxPrice);
 
+        return response()->json([
+            'products' => array_values($products),
+            'count' => count($products)
+        ]);
+    }
+
+    /**
+     * Get featured products (for homepage or widgets)
+     */
+    public function featured()
+    {
+        $featuredProducts = ProductDataService::getFeaturedProducts(4);
+        
+        return response()->json([
+            'products' => $featuredProducts
+        ]);
+    }
+
+    /**
+     * Get all categories (API endpoint)
+     */
+    public function categories()
+    {
+        $categories = ProductDataService::getAllCategories();
+        
+        return response()->json([
+            'categories' => $categories
+        ]);
+    }
+}

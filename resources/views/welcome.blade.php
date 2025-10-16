@@ -129,7 +129,520 @@
                     </ul>
                 </div>
                 <div class="bg-[#fff2f2] dark:bg-[#1D0002] relative lg:-ml-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg aspect-[335/376] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden">
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesanan Berhasil - E-Commerce</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Success Section */
+        .success-section {
+            background: white;
+            margin: 30px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .success-header {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .success-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .success-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .order-details {
+            padding: 40px 30px;
+        }
+
+        .order-info {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 8px 0;
+        }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .info-value {
+            color: #34495e;
+            text-align: right;
+        }
+
+        .order-id {
+            background: #3498db;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .order-id strong {
+            font-size: 1.2rem;
+        }
+
+        /* Customer Info */
+        .customer-section, .items-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+
+        .customer-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .customer-row {
+            margin-bottom: 12px;
+        }
+
+        .customer-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .customer-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .customer-value {
+            color: #34495e;
+        }
+
+        /* Order Items */
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .item-quantity {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .item-total {
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        /* Order Total */
+        .order-total {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 5px 0;
+        }
+
+        .grand-total {
+            border-top: 2px solid #dee2e6;
+            padding-top: 15px;
+            margin-top: 15px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* Payment Info */
+        .payment-info {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .payment-method {
+            font-weight: 600;
+            color: #1565c0;
+            margin-bottom: 10px;
+        }
+
+        .payment-instructions {
+            color: #1976d2;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Action Buttons */
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #ecf0f1;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        /* Progress Steps */
+        .progress-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #27ae60;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .step-title {
+            font-size: 0.9rem;
+            color: #2c3e50;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #27ae60;
+            z-index: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .success-header {
+                padding: 30px 20px;
+            }
+
+            .success-title {
+                font-size: 1.5rem;
+            }
+
+            .order-details {
+                padding: 20px;
+            }
+
+            .actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .info-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .info-value {
+                text-align: left;
+            }
+
+            .progress-steps {
+                flex-wrap: wrap;
+                gap: 15px;
+                justify-content: center;
+            }
+
+            .progress-line {
+                display: none;
+            }
+        }
+
+        /* Animation */
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="{{ route('products.index') }}" style="color: white; text-decoration: none;">
+                        E-Commerce Store
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="success-section">
+                <div class="success-header">
+                    <!--<span class="success-icon">🎉</span>-->
+                    <h1 class="success-title">Pesanan Berhasil!</h1>
+                    <p class="success-subtitle">Terima kasih telah berbelanja di toko kami</p>
+                </div>
+
+                <div class="order-details">
+                    <div class="order-id">
+                        <strong>ID Pesanan: {{ $order['order_id'] }}</strong>
+                        <div style="font-size: 0.9rem; margin-top: 5px; opacity: 0.9;">
+                            {{ $order['order_date']->format('d F Y, H:i') }} WIB
+                        </div>
+                    </div>
+
+                    <!-- Customer Information -->
+                    <div class="customer-section">
+                        <h3 class="section-title">Informasi Pembeli</h3>
+                        <div class="customer-info">
+                            <div class="customer-row">
+                                <div class="customer-label">Nama:</div>
+                                <div class="customer-value">{{ $order['customer']['name'] }}</div>
+                            </div>
+                            <div class="customer-row">
+                                <div class="customer-label">Email:</div>
+                                <div class="customer-value">{{ $order['customer']['email'] }}</div>
+                            </div>
+                            <div class="customer-row">
+                                <div class="customer-label">Telepon:</div>
+                                <div class="customer-value">{{ $order['customer']['phone'] }}</div>
+                            </div>
+                            <div class="customer-row">
+                                <div class="customer-label">Alamat:</div>
+                                <div class="customer-value">{{ $order['customer']['address'] }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Items -->
+                    <div class="items-section">
+                        <h3 class="section-title">Item Pesanan</h3>
+                        @foreach($order['items'] as $item)
+                            <div class="order-item">
+                                <div class="item-details">
+                                    <div class="item-name">{{ $item['name'] }}</div>
+                                    <div class="item-quantity">
+                                        {{ $item['quantity'] }} × Rp {{ number_format($item['price'], 0, ',', '.') }}
+                                    </div>
+                                </div>
+                                <div class="item-total">
+                                    Rp {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
+                                </div>
+                            </div>
+                        @endforeach
+
+                        <div class="order-total">
+                            <div class="total-row grand-total">
+                                <span>Total Pembayaran:</span>
+                                <span>Rp {{ number_format($order['total'], 0, ',', '.') }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Information -->
+                    <div class="payment-info">
+                        <div class="payment-method">
+                            Metode Pembayaran: 
+                            @switch($order['payment_method'])
+                                @case('bank_transfer')
+                                    Transfer Bank
+                                    @break
+                                @case('ewallet')
+                                    E-Wallet
+                                    @break
+                                @case('cod')
+                                    Bayar di Tempat (COD)
+                                    @break
+                                @default
+                                    {{ ucfirst(str_replace('_', ' ', $order['payment_method'])) }}
+                            @endswitch
+                        </div>
+                        <div class="payment-instructions">
+                            @switch($order['payment_method'])
+                                @case('bank_transfer')
+                                    Silakan lakukan transfer ke rekening yang akan dikirimkan melalui email. 
+                                    Pesanan akan diproses setelah pembayaran dikonfirmasi.
+                                    @break
+                                @case('ewallet')
+                                    Link pembayaran e-wallet akan dikirimkan melalui SMS/WhatsApp. 
+                                    Mohon selesaikan pembayaran dalam 24 jam.
+                                    @break
+                                @case('cod')
+                                    Pembayaran akan dilakukan saat barang diterima. 
+                                    Pastikan menyiapkan uang pas sesuai total pembayaran.
+                                    @break
+                                @default
+                                    Instruksi pembayaran akan dikirimkan melalui email.
+                            @endswitch
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <a href="{{ route('products.index') }}" class="btn btn-primary">
+                            Lanjut Belanja
+                        </a>
+                        <button onclick="window.print()" class="btn btn-success">
+                            Cetak Pesanan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Automatically scroll to top
+        window.scrollTo(0, 0);
+
+        // Remove order from session after displaying (optional)
+        // This prevents back button issues
+        history.replaceState(null, '', '{{ route('products.order-success') }}');
+    </script>
+</body>
+</html>
                     <svg class="w-full text-[#F53003] dark:text-[#F61500] transition-all translate-y-0 opacity-100 max-w-none duration-750 starting:opacity-0 starting:translate-y-6" viewBox="0 0 438 104" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17.2036 -3H0V102.197H49.5189V86.7187H17.2036V-3Z" fill="currentColor" />
                         <path d="M110.256 41.6337C108.061 38.1275 104.945 35.3731 100.905 33.3681C96.8667 31.3647 92.8016 30.3618 88.7131 30.3618C83.4247 30.3618 78.5885 31.3389 74.201 33.2923C69.8111 35.2456 66.0474 37.928 62.9059 41.3333C59.7643 44.7401 57.3198 48.6726 55.5754 53.1293C53.8287 57.589 52.9572 62.274 52.9572 67.1813C52.9572 72.1925 53.8287 76.8995 55.5754 81.3069C57.3191 85.7173 59.7636 89.6241 62.9059 93.0293C66.0474 96.4361 69.8119 99.1155 74.201 101.069C78.5885 103.022 83.4247 103.999 88.7131 103.999C92.8016 103.999 96.8667 102.997 100.905 100.994C104.945 98.9911 108.061 96.2359 110.256 92.7282V102.195H126.563V32.1642H110.256V41.6337ZM108.76 75.7472C107.762 78.4531 106.366 80.8078 104.572 82.8112C102.776 84.8161 100.606 86.4183 98.0637 87.6206C95.5202 88.823 92.7004 89.4238 89.6103 89.4238C86.5178 89.4238 83.7252 88.823 81.2324 87.6206C78.7388 86.4183 76.5949 84.8161 74.7998 82.8112C73.004 80.8078 71.6319 78.4531 70.6856 75.7472C69.7356 73.0421 69.2644 70.1868 69.2644 67.1821C69.2644 64.1758 69.7356 61.3205 70.6856 58.6154C71.6319 55.9102 73.004 53.5571 74.7998 51.5522C76.5949 49.5495 78.738 47.9451 81.2324 46.7427C83.7252 45.5404 86.5178 44.9396 89.6103 44.9396C92.7012 44.9396 95.5202 45.5404 98.0637 46.7427C100.606 47.9451 102.776 49.5487 104.572 51.5522C106.367 53.5571 107.762 55.9102 108.76 58.6154C109.756 61.3205 110.256 64.1758 110.256 67.1821C110.256 70.1868 109.756 73.0421 108.76 75.7472Z" fill="currentColor" />
